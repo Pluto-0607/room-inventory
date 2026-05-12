@@ -1,0 +1,36 @@
+.auth-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
+  gap: 22px;
+  align-items: end;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--gold);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.auth-panel h2 {
+  font-size: 26px;
+  line-height: 1.25;
+  margin-top: 6px;
+}
+
+.auth-panel p:not(.eyebrow) {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 8px;
+}
+
+.login-form {
+  display: grid;
+  gap: 12px;
+}
+
+@media (max-width: 1040px) {
+  .auth-panel {
+    grid-template-columns: 1fr;
+  }
+}
