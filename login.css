@@ -1,0 +1,52 @@
+[hidden] { display: none !important; }
+
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: min(880px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: 28px;
+  align-items: end;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--green);
+  border-radius: 8px;
+  background: rgba(255, 250, 241, 0.94);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.login-card h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  margin-top: 6px;
+}
+
+.login-card p:not(.eyebrow),
+.login-hint {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 10px;
+}
+
+.login-form,
+.auth-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.auth-actions {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 760px) {
+  .login-card,
+  .auth-actions {
+    grid-template-columns: 1fr;
+  }
+}
