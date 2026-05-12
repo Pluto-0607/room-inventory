@@ -12,3 +12,12 @@
 ## Supabase
 
 第一次使用前，记得在 Supabase SQL Editor 里执行 `supabase-schema.sql`。
+
+登录版还需要检查：
+
+1. Authentication > Providers > Email 已启用。
+2. Authentication > URL Configuration > Redirect URLs 加入 GitHub Pages 地址，例如：
+
+```text
+https://pluto-0607.github.io/room-inventory/
+```
