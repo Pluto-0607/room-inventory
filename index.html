@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>房间物品记录</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">□</span>
+          <div>
+            <h1>房间物品记录</h1>
+            <p>按位置和容器找回每一件东西</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <span class="sync-status" id="syncStatus">正在连接云端...</span>
+          <button type="button" id="exportJsonBtn">导出 JSON</button>
+          <button type="button" id="exportCsvBtn">导出 CSV</button>
+          <label class="file-action">
+            导入 JSON
+            <input type="file" id="importJsonInput" accept="application/json" />
+          </label>
+        </div>
+      </header>
+
+      <aside class="sidebar" aria-label="位置和容器">
+        <section class="stats" aria-label="统计">
+          <div><strong id="totalCount">0</strong><span>物品</span></div>
+          <div><strong id="containerCount">0</strong><span>容器</span></div>
+          <div><strong id="pendingCount">0</strong><span>待处理</span></div>
+        </section>
+
+        <section class="side-panel">
+          <div class="section-title">
+            <h2>容器区域</h2>
+            <button type="button" id="showContainerFormBtn">新增</button>
+          </div>
+          <div class="container-list" id="containerList"></div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="hero-panel">
+          <div>
+            <p class="eyebrow">Inventory Map</p>
+            <h2>把房间变成一张可搜索的收纳地图</h2>
+          </div>
+          <div class="search-box">
+            <label for="searchInput">搜索</label>
+            <input id="searchInput" type="search" placeholder="搜索物品、位置、容器、备注" autocomplete="off" />
+          </div>
+        </section>
+
+        <section class="controls" aria-label="筛选">
+          <label>容器<select id="containerFilter"><option value="">全部容器</option></select></label>
+          <label>类别<select id="categoryFilter"><option value="">全部类别</option></select></label>
+          <label>
+            状态
+            <select id="statusFilter">
+              <option value="">全部状态</option>
+              <option>保留</option>
+              <option>待处理</option>
+              <option>待送人</option>
+              <option>待丢弃</option>
+              <option>待维修</option>
+            </select>
+          </label>
+          <button type="button" id="clearFiltersBtn">清除筛选</button>
+        </section>
+
+        <section class="edit-grid">
+          <form class="editor" id="itemForm" aria-label="添加或编辑物品">
+            <div class="section-title"><h2 id="itemFormTitle">添加物品</h2><button type="button" id="resetItemBtn">清空</button></div>
+            <input type="hidden" id="itemId" />
+            <div class="form-grid">
+              <label>物品名<input id="nameInput" required placeholder="例如：护照" /></label>
+              <label>类别<input id="categoryInput" list="categoryList" placeholder="证件 / 电子配件" /><datalist id="categoryList"></datalist></label>
+              <label>所属容器<select id="itemContainerSelect"></select></label>
+              <label>
+                状态
+                <select id="stateInput">
+                  <option>保留</option>
+                  <option>待处理</option>
+                  <option>待送人</option>
+                  <option>待丢弃</option>
+                  <option>待维修</option>
+                </select>
+              </label>
+              <label class="wide">具体位置<input id="locationInput" required placeholder="卧室 > 衣柜 > 左侧上层 > 蓝色文件袋" /></label>
+              <label class="wide">备注<textarea id="noteInput" rows="3" placeholder="备用、贵重、待维修、和某设备配套等"></textarea></label>
+            </div>
+            <button class="primary full" type="submit" id="saveItemBtn">添加物品</button>
+          </form>
+
+          <form class="editor container-editor" id="containerForm" aria-label="添加或编辑容器">
+            <div class="section-title"><h2 id="containerFormTitle">容器信息</h2><button type="button" id="resetContainerBtn">清空</button></div>
+            <input type="hidden" id="containerId" />
+            <div class="form-grid">
+              <label>容器名称<input id="containerNameInput" required placeholder="例如：收纳箱 A" /></label>
+              <label>类型<input id="containerTypeInput" placeholder="抽屉 / 文件袋 / 箱子" /></label>
+              <label class="wide">放置位置<input id="containerLocationInput" required placeholder="卧室 > 床下 > 左侧" /></label>
+              <label class="wide">容器备注<textarea id="containerNoteInput" rows="3" placeholder="透明箱、适合放换季衣物、需要防潮等"></textarea></label>
+            </div>
+            <button class="primary full" type="submit" id="saveContainerBtn">保存容器</button>
+          </form>
+        </section>
+
+        <section class="list-head" aria-live="polite">
+          <div><p class="eyebrow">Items</p><h2 id="resultTitle">全部物品</h2></div>
+          <span id="activeContainerHint"></span>
+        </section>
+
+        <section class="items" id="itemList" aria-label="物品列表"></section>
+      </main>
+    </div>
+
+    <template id="containerTemplate">
+      <article class="container-card">
+        <button type="button" class="container-pick"><strong></strong><span></span></button>
+        <p></p>
+        <div class="container-actions"><button type="button" class="container-edit">编辑</button><button type="button" class="container-delete">删除</button></div>
+      </article>
+    </template>
+
+    <template id="itemTemplate">
+      <article class="item-card">
+        <div class="item-main"><div><h3></h3><p class="meta"></p></div><span class="status"></span></div>
+        <dl class="item-details">
+          <div><dt>位置</dt><dd class="item-location"></dd></div>
+          <div><dt>备注</dt><dd class="item-note"></dd></div>
+        </dl>
+        <div class="card-actions"><button type="button" class="edit-btn">编辑</button><button type="button" class="delete-btn">删除</button></div>
+      </article>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
