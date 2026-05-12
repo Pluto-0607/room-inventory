@@ -9,10 +9,7 @@
   </head>
   <body>
     <div class="app-shell">
-      <header class="topbar">
-        <div class="brand"><span class="brand-mark" aria-hidden="true">□</span><div><h1>房间物品记录</h1><p>按位置和容器找回每一件东西</p></div></div>
-        <div class="top-actions"><span class="sync-status" id="syncStatus">正在连接云端...</span><button type="button" id="logoutBtn" hidden>退出登录</button><button type="button" id="exportJsonBtn">导出 JSON</button><button type="button" id="exportCsvBtn">导出 CSV</button><label class="file-action">导入 JSON<input type="file" id="importJsonInput" accept="application/json" /></label></div>
-      </header>
+      <header class="topbar"><div class="brand"><span class="brand-mark" aria-hidden="true">□</span><div><h1>房间物品记录</h1><p>按位置和容器找回每一件东西</p></div></div><div class="top-actions"><span class="sync-status" id="syncStatus">正在连接云端...</span><button type="button" id="logoutBtn" hidden>退出登录</button><button type="button" id="exportJsonBtn">导出 JSON</button><button type="button" id="exportCsvBtn">导出 CSV</button><label class="file-action">导入 JSON<input type="file" id="importJsonInput" accept="application/json" /></label></div></header>
       <aside class="sidebar" aria-label="位置和容器"><section class="stats" aria-label="统计"><div><strong id="totalCount">0</strong><span>物品</span></div><div><strong id="containerCount">0</strong><span>容器</span></div><div><strong id="pendingCount">0</strong><span>待处理</span></div></section><section class="side-panel"><div class="section-title"><h2>容器区域</h2><button type="button" id="showContainerFormBtn">新增</button></div><div class="container-list" id="containerList"></div></section></aside>
       <main class="workspace">
         <section class="auth-panel" id="authPanel"><div><p class="eyebrow">Private Sync</p><h2>登录后同步你的房间物品</h2><p>使用邮箱和密码登录。手机和电脑登录同一个账号，就能编辑同一份云端数据。</p></div><form id="loginForm" class="login-form"><label>邮箱<input id="emailInput" type="email" required placeholder="you@example.com" autocomplete="email" /></label><label>密码<input id="passwordInput" type="password" required minlength="6" placeholder="至少 6 位" autocomplete="current-password" /></label><div class="auth-actions"><button class="primary" type="submit">登录</button><button type="button" id="signupBtn">注册</button></div></form></section>
@@ -23,6 +20,6 @@
       </main>
     </div>
     <template id="containerTemplate"><article class="container-card"><button type="button" class="container-pick"><strong></strong><span></span></button><p></p><div class="container-actions"><button type="button" class="container-edit">编辑</button><button type="button" class="container-delete">删除</button></div></article></template><template id="itemTemplate"><article class="item-card"><div class="item-main"><div><h3></h3><p class="meta"></p></div><span class="status"></span></div><dl class="item-details"><div><dt>位置</dt><dd class="item-location"></dd></div><div><dt>备注</dt><dd class="item-note"></dd></div></dl><div class="card-actions"><button type="button" class="edit-btn">编辑</button><button type="button" class="delete-btn">删除</button></div></article></template>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./auth-loader.js?v=4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./auth-loader.js?v=5"></script><script src="./password-auth-patch.js?v=1"></script>
   </body>
 </html>
