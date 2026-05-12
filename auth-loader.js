@@ -30,7 +30,12 @@ const ROOM_INVENTORY_SUPABASE_KEY = "sb_publishable_am2Py8DVUyPT32JwoBLTVg_b9Q8O
     }
   }
 
-  const script = document.createElement("script");
-  script.src = "./auth-app.js?v=2";
-  document.body.appendChild(script);
+  const appScript = document.createElement("script");
+  appScript.src = "./auth-app.js?v=3";
+  appScript.onload = () => {
+    const patchScript = document.createElement("script");
+    patchScript.src = "./password-auth-patch.js?v=2";
+    document.body.appendChild(patchScript);
+  };
+  document.body.appendChild(appScript);
 })();
